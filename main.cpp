@@ -8,10 +8,15 @@ using namespace std;
  */
 string getZooName();
 
+/*
+ * Clear input buffer i.e newline
+ */
 void clear_input_buffer() {
     while (getchar() != '\n');
 }
-
+/*
+ * Struct to hold unit data
+ */
 struct Animal {
     string name;
     string location;
@@ -20,26 +25,46 @@ struct Animal {
     int childMale = 0;
     int childFemale = 0;
 };
-
+/*
+ * Actual program
+ * This handle all functionality of the management
+ */
 class ZooAnimalManager {
-    /* Animal list */
+    /* Animal list, holds struct of unique animal */
     struct Animal *animals;
+    /*
+     * size of the animals pointer
+     */
     int pointerSize = 0;
+    /* Name of the zoo */
     string ZooName;
 public:
+    /*
+     * constructor, allocate memory 0 bytes to create a valid pointer
+     */
     ZooAnimalManager() {
         animals = (struct Animal *) malloc(sizeof(struct Animal) * 0);
     }
+    /*
+     * constructor, allocate memory 0 bytes to create a valid pointer
+     * also update ZooName
+     */
 
     ZooAnimalManager(string name) {
         animals = (struct Animal *) malloc(sizeof(struct Animal) * 0);
         ZooName = name;
     }
-
+    /*
+     * Setter: Sets zoo name at a later point in program execution
+     */
     void setZooName(string);
-
+    /*
+     * Add a new animal to the list
+     */
     void addAnimal(struct Animal);
-
+    /*
+     * Get populations
+     */
     int getPopulationChildMale();
 
     int getPopulationChildFemale();
@@ -51,25 +76,37 @@ public:
     int getPopulationChild();
 
     int getPopulation();
-
+    /*
+     * Get ZooName while running the program
+     */
     string getZooName();
-
+    /*
+     * return an animal if it exists
+     */
     struct Animal *getAnimal(string);
-
+    /*
+     * return pointer size
+     */
     int getTotalUniqueAnimal() {
         return pointerSize;
     }
-
+    /*
+     * return the base pointer of animals
+     */
     struct Animal *getBasePointer() {
         return animals;
     }
-
+    /*
+     * friend function, gets zoo name from outside the class
+     */
     friend string getZooName(ZooAnimalManager);
 
 private:
     struct Animal *findAnimal(struct Animal);
 };
-
+/*
+ * Implementations
+ */
 string getZooName(ZooAnimalManager zoo) {
     return zoo.ZooName;
 }
@@ -166,24 +203,36 @@ int ZooAnimalManager::getPopulationMale() {
     return population;
 }
 
+/*
+ * End Implementations
+ */
 
+/*
+ * Print unit animal
+ */
 void PrintAnimal(struct Animal *animal) {
     cout << "Animal name: " << animal->name << endl << "Located at: " << animal->location << endl
          << "Population Child: " << animal->childMale << "(M) + " << animal->childFemale << "(F)" << endl;
     cout << "Population Adult: " << animal->male << "(M) + " << animal->female << "(F)" << endl;
     cout << "Total: " << animal->male + animal->female + animal->childFemale + animal->childMale << endl;
 }
-
+/*
+ * Print choice list
+ */
 void PrintChoice() {
     cout << "What to do?" << endl << "a: add more animal" << endl << "b: print all animals" << endl
          << "c: find about an animal" << endl << "d: get zoo status" << endl << "e: exit program" << endl;
 }
-
+/*
+ * Print program banner
+ */
 void printHeader() {
     cout << "===Welcome to ZooManager===" << endl;
     cout << "Name your zoo to start!" << endl;
 }
-
+/*
+ * Take input of an animal
+ */
 void TakeInputAnimal(ZooAnimalManager *zoo) {
     struct Animal animal;
     cout << "Enter an animal name: ";
@@ -203,7 +252,9 @@ void TakeInputAnimal(ZooAnimalManager *zoo) {
 
     return;
 }
-
+/*
+ * Find an animal by name
+ */
 void Action_find_Animal(ZooAnimalManager *zoo) {
     string name;
     cout << "Enter the animal name: ";
@@ -215,7 +266,9 @@ void Action_find_Animal(ZooAnimalManager *zoo) {
         cout << "No animal found by this name!" << endl;
     cout << endl;
 }
-
+/*
+ * Print all animal in the zoo
+ */
 void PrintAllAnimal(ZooAnimalManager *zoo) {
     struct Animal *ptr = zoo->getBasePointer();
     for (int i = 0; i < zoo->getTotalUniqueAnimal(); ++i) {
@@ -223,7 +276,9 @@ void PrintAllAnimal(ZooAnimalManager *zoo) {
     }
     cout << endl;
 }
-
+/*
+ * Print zoo status
+ */
 void PrintZooStatus(ZooAnimalManager *zoo) {
     cout << "Zoo name: " << zoo->getZooName() << endl;
     cout << "Unique animals: " << zoo->getTotalUniqueAnimal() << endl;
@@ -234,7 +289,9 @@ void PrintZooStatus(ZooAnimalManager *zoo) {
     cout << "Child Females: " << zoo->getPopulationChildFemale() << endl;
     cout << endl;
 }
-
+/*
+ * main()
+ */
 int main() {
     printHeader();
     string name;
